@@ -11,21 +11,6 @@ function fetchUsername(){
     }
 });
 }
-//fetch user
-function fetchUser(username) {
-    let user;
-    fetch('/api/getUser',{
-        method: 'post',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({username: username})
-    })
-    .then(res => res.json())
-    .then(res => user = res)
-    .catch(err => console.log(err))
-    return user
-}
 
 //show if user is connected
 function userIsConnected (){

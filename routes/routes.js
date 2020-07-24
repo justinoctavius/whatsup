@@ -18,6 +18,7 @@ route.post('/api/setUserData', user.setData);
 //messages
 route.get('/api/getMessages', messages.fetch);
 route.post('/api/saveMessages', messages.save);
+route.post('/api/deleteMessages', messages.delete);
 //groups
 route.get('/api/fetchGroups', groups.fetch);
 route.post('/api/setGroups', groups.add);

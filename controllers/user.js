@@ -24,9 +24,9 @@ ctrl.newUserMessage = (req, res) => {
 ctrl.getUser = async (req, res) => {
     const { username } = req.body;
     console.log(username)
-    const user = await User.findOne({username: {$regex: username}});
+    const user = await User.findOne({username: username});
     console.log(user)
-    res.json(user);
+    res.json({user: 'hola'});
 }
 
 module.exports = ctrl;

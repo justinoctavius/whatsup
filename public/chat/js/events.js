@@ -2,8 +2,7 @@
 //On windows load
 window.addEventListener('load',() => {
     fetchUsername();
-    fetchGroups();
-    fetchMessages();
+    fetchAndShowGroups();
     emitSocketConnected();
     elements.message.focus();
 })
@@ -21,7 +20,6 @@ elements.message.addEventListener('keydown',(e) => {
 });
 //groups
 //deselect a group
-
 document.addEventListener('dblclick',() => {
     deselectGroup(globalVariables.selectGroup)
 })
@@ -47,21 +45,10 @@ elements.btnCancelGroup.addEventListener('click', (e) => {
 
 //Socket Events
 //On send messages
-socket.on('sendMessage', (data) => {
-    if(data){
-        fetch('/api/getGroups',{
-            method: 'post',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({group_id: data.to})
-        })
-        .then(res => res.json())
-        .then(res => {
-            if(res.groups.members == globalVariables.username || res.groups.admin == globalVariables.username){
-                saveMessages(data);
-                showMessages(data);
-            }
-        })
+socket.on('sendMessage', async (data) => {
+    const group = await getGroup(data.to);
+    if(group.group.members == globalVariables.username || group.group.admin == globalVariables.username){
+        saveMessages(data);
+        showMessages(data);
     }
-});
+})

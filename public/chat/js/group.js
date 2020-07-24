@@ -1,31 +1,72 @@
 //--------------------------------------FETCHING GROUPS FUNCTIONS-------------------------------------------
-function fetchGroups() {
-    fetch('/api/fetchGroups')
+async function fetchGroups() {
+    let groups;
+    await fetch('/api/fetchGroups')
     .then(res => res.json())
-    .then(res => validationGroups(res))
-    .catch(err => console.log(err))
+    .then(res => {
+        groups = res
+    })
+    .catch(err => console.log(err));
+    if(groups) {
+        return groups.groups;
+    }
 }
 
 //---------------------------------------VALIDATIONS FUNCTIONS-----------------------------------------------
-function validationGroups(groups) {
-    const allGroups = groups.groups
+async function validateGroups(groups) {
+    const groupsValidated = [];
+    const allGroups = groups;
     if(allGroups.length > 0){
-        allGroups.map((group) => {
+        await allGroups.map((group) => {
             if(group.members == globalVariables.username || group.admin == globalVariables.username){
-                showGroups(group);
+                groupsValidated.push(group);
             }
-        })
+        });
+        return groupsValidated;
     }
 }
 
 //-------------------------------------GENERAL FUNCTIONS--------------------------------------------------
 
+//get group
+async function getGroup(id) {
+    await fetch('/api/getGroups',{
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({group_id: id})
+    })
+    .then(res => res.json())
+    .then(res => {
+        group = res;
+    })
+    .catch(err => console.log(err))
+        return group
+}
+
+//set group
+async function setGroup(data) {
+    let message;
+    await fetch('/api/setGroups',{
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(res => {
+        message = res
+    })
+    .catch(err => console.log(err));
+        return message;
+}
+
+
+
 //show groups
 function showGroups(group) {
-    // let membersNumbers= 0;
-    // group.members.map((member) => {
-    //     membersNumbers++
-    // })
     elements.groups.innerHTML += `
     <button class="btn btn-outline-success col-md-4 m-1 p-1" 
     onClick="selectGroup('${group.group_id}')" 
@@ -35,10 +76,11 @@ function showGroups(group) {
 
 //select a group
 function selectGroup(id) {
+    deselectGroup();
     globalVariables.selectGroup = id;
     const group = document.getElementById(globalVariables.selectGroup);
     group.className = group.className + ' active';
-    fetchMessages()
+    fetchingAndShowMessages();
 }
 //deselect a group
 function deselectGroup() {
@@ -46,6 +88,7 @@ function deselectGroup() {
         const group = document.getElementById(globalVariables.selectGroup);
         const className = group.className.replace('active','');
         group.className = className;
+        elements.output.innerHTML = '';
         globalVariables.selectGroup = '';
     }
 }
@@ -53,19 +96,25 @@ function deselectGroup() {
 //--------------------------------------------------DELETE FUNCTIONS---------------------------------
 
 //delete group
-function deleteGroup(e,id) {
-    fetch('/api/deleteGroups',{
-        method: 'post',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({group_id: id})
-    })
-    .then(res => res.json())
-    .then(res => console.log(res))
-    .catch(err => console.log(err))
-    document.location.reload();
-    e.preventDefault();
+async function deleteGroup(e,id) {
+    if(confirm('Are you sure?')){
+        await fetch('/api/deleteGroups',{
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({group_id: id, username: globalVariables.username})
+        })
+        .then(res => res.json())
+        .then(res => {
+            console.log(res)
+        })
+        .catch(err => console.log(err))
+        const messages = await deleteMessages(id);
+        console.log(messages)
+        document.location.reload();
+        e.preventDefault();
+    }
 }
 
 //---------------------------------------------------CREATOR FUNCTIONS---------------------------------------
@@ -76,28 +125,32 @@ function showGroupCreator(e) {
     e.preventDefault();
 }
 //add new group
-function addGroup(e) {
-    fetch('/api/setGroups',{
-        method: 'post',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ 
-            admin: globalVariables.username, 
-            members: elements.member.value, 
-            name: elements.name.value
-        })
-    })
-    .then(res => res.json())
-    .then(res => console.log(res))
-    .catch(err => console.log(err))
-    cancelAddNewGroup(e);
+async function addGroup() {
+    const data = {
+        admin: globalVariables.username, 
+        members: elements.member.value, 
+        name: elements.name.value
+    }
+    const messages = await setGroup(data);
+    cancelAddNewGroup();
+    console.log(messages);
     document.location.reload();
-    e.preventDefault();
 }
 
 //cancel new group
-function cancelAddNewGroup(e) {
+function cancelAddNewGroup() {
     elements.createGroup.style.display = 'none';
-    e.preventDefault();
 }
+
+
+//-------------------------------Main-----------------------------------------------------------------
+async function fetchAndShowGroups() {
+    let groupsValidated, groups;
+    groups = await fetchGroups();
+    if(groups.length > 0){
+        groupsValidated = await validateGroups(groups);
+        groupsValidated.map((group) => {
+            showGroups(group);
+        });
+    }
+};
