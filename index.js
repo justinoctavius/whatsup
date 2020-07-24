@@ -1,9 +1,8 @@
-const path = require('path')
+const path = require('path');
 const express = require('express');
 const app = express();
 
-const SocketIO = require('socket.io')
-
+const SocketIO = require('socket.io');
 
 // settings
 app.set('port', process.env.PORT || 3000);
@@ -17,7 +16,7 @@ const server = app.listen(app.get('port'), () => {
 });
 
 //middleware
-app.use(express.json())
+app.use(express.json());
 
 //routes
 app.use(require('./routes/routes'));
@@ -25,11 +24,17 @@ app.use(require('./routes/routes'));
 // Socket.io
 const io = SocketIO(server);
 
+//Check if user is connected
+
 //web Socket
 io.on('connection',(socket) => {
     console.log('new connection', socket.id);
+    
+    socket.on('newUserConnected', (data) => {
+        socket.broadcast.emit('newUserConnected', data);
+    });
 
     socket.on('sendMessage', (data) => {
-        io.sockets.emit('sendMessage', data)
+        io.sockets.emit('sendMessage', data);
     });
 });

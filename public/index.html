@@ -13,9 +13,12 @@
 </head>
 <body class="d-flex justify-content-center m-5">
 
-    <video src="../assets/background2.mp4" loop autoplay preload muted class="radio--background-video"></video>
+    <video src="../assets/background3.mp4" loop autoplay preload muted class="radio--background-video"></video>
+
+    <div id="newUserMessage" ></div>
 
     <div class="main-box container p-5 w-50">
+        
         <div class="row d-flex justify-content-center mb-4">
             <h1 class="text-success text-center title">
                 Long-In
@@ -28,16 +31,17 @@
                     <small id="error" class="form-text text-danger">Invalid user</small>
                   <input required type="text" class="form-control mb-4" name="username" id="username" placeholder="Username">
                   <input required type="password" class="form-control mb-4" name="password" id="password" placeholder="Password">
-                  <input name="btn-login" id="btn-login" class="btn btn-success btn-block" type="submit" value="Save">
+                  <input name="btn-login" id="btn-login" class="btn btn-success btn-block" type="submit" value="Enter">
                   
                 </div>
             </form>
-            <a href="/register" class="text-info"><span class="text-warning">Don't registered? </span>click here</a>
+            <a href="/register" class="text-light"><span class="text-warning">Don't registered? </span>click here</a>
         </div>
     </div>
 
 
-
+    <!-- socket.io scripts -->
+    <script src="/socket.io/socket.io.js"></script>
     <!-- bootstrap -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

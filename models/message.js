@@ -1,6 +1,9 @@
-const mongoose = require('../database/messageDb')
+const mongoose = require('../database/database')
 const messageSchema = new mongoose.Schema({
-        date: String,
+        date: {
+            type: Date,
+            default: Date.now()
+        },
         messages: String,
         from: String,
         to: String 

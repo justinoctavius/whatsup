@@ -1,10 +1,25 @@
-const login = document.getElementById('login');
-const username = document.getElementById('username')
-const password = document.getElementById('password')
+//Dom element
+const elements = {
+    login: document.getElementById('login'),
+    username: document.getElementById('username'),
+    password: document.getElementById('password'),
+    newUserMessage: document.getElementById('newUserMessage')
+}
 
-
-
-login.addEventListener('submit',e => {
+//DOM Events
+//On window load
+window.addEventListener('load',() => {
+    elements.username.focus();
+    fetch('/api/newUserMessage')
+        .then(res => res.json())
+        .then(res => {
+            if(res.userMessage != undefined){
+                elements.newUserMessage.innerHTML = `<span class="badge badge-pill badge-success p-3">${res.userMessage}</span>`
+            }
+        });
+});
+//On form submit
+elements.login.addEventListener('submit',e => {
     fetch('/api/login',{
         method: 'POST',
         headers: {
@@ -16,8 +31,8 @@ login.addEventListener('submit',e => {
     .then(res => res.json())
     .then(res => {
         if(res.length > 0){
+            sendData(...res)
             location.assign('chat')
-            console.log('welcome'+ res[0].username)
         }else{
             const error = document.getElementById('error')
             error.style.display = 'block'
@@ -25,4 +40,16 @@ login.addEventListener('submit',e => {
     })
 
     e.preventDefault()
-})
+});
+
+
+//Functions
+function sendData(data) {
+    fetch('/api/setUserData', {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({data: data})
+    })
+}

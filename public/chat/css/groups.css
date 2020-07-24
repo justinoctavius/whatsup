@@ -1,0 +1,12 @@
+.groups Button{
+    font-size: 8px;
+    max-width: max-content;
+    display: inline-block;
+}
+
+.groups p{
+    text-align: center;
+}
+.createGroup{
+    display: none;
+}

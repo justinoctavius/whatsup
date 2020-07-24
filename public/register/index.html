@@ -13,7 +13,7 @@
 </head>
 <body class="d-flex justify-content-center m-5">
 
-    <video src="../assets/background.mp4" loop autoplay preload muted class="radio--background-video"></video>
+    <video src="../assets/background4.mp4" loop autoplay preload muted class="radio--background-video"></video>
 
     <div class="main-box container p-5 w-50">
         <div class="row d-flex justify-content-center mb-4">
@@ -23,12 +23,12 @@
         </div>
 
         <div class="row d-flex justify-content-center">
-            <form action="/api/register" method="get">
+            <form id="register">
                 <div class="form-group">
                   <input required type="text" class="form-control mb-4" name="username" id="username" placeholder="Username">
-                  <input required type="email" class="form-control mb-4" name="email" id="username" placeholder="E-mail">
+                  <input required type="email" class="form-control mb-4" name="email" id="email" placeholder="E-mail">
                   <input required type="password" class="form-control mb-4" name="password" id="password" placeholder="Password">
-                  <input name="btn-login" id="btn-login" class="btn btn-success btn-block" type="submit" value="Save">
+                  <input name="btn-register" id="btn-submit" class="btn btn-success btn-block" type="submit" value="Save">
                 </div>
             </form>
             <a href="../" class="text-light"><span class="text-warning">Alright registered? </span>click here</a>
