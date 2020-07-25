@@ -1,7 +1,8 @@
 .groups Button{
     font-size: 8px;
-    max-width: max-content;
-    display: inline-block;
+    display: block;
+    min-width: 100%;
+    margin:5px auto;
 }
 
 .groups p{
@@ -10,3 +11,25 @@
 .createGroup{
     display: none;
 }
+
+.joinGroup{
+    display: none;
+}
+
+@media only screen and (max-width: 450px) {
+    .title {
+        font-size: 25px;
+    }
+    .link a span{
+        display: block;
+    }
+    .link a {
+        text-align: center;
+    }
+    .createGroup button{
+        font-size: 7px;
+    };
+    .joinGroup button{
+        font-size: 7px;
+    }
+  }

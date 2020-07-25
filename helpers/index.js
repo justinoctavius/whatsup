@@ -1,3 +1,4 @@
 module.exports = {
-    randomId: require('./randomId')
+    randomId: require('./randomId'),
+    crypt: require('./crypto')
 }

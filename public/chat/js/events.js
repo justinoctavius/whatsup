@@ -1,12 +1,13 @@
 //Dom Events
 //On windows load
-window.addEventListener('load',() => {
-    fetchUsername();
-    fetchAndShowGroups();
-    emitSocketConnected();
+window.addEventListener('load',async () => {
+    await fetchUsername();
+    await fetchAndShowGroups();
+    await emitSocketConnected();
     elements.message.focus();
 })
 
+//MESSAGES SEND
 //On click the send button
 elements.btn.addEventListener('click',() => {
     sendMessage()
@@ -18,37 +19,62 @@ elements.message.addEventListener('keydown',(e) => {
         sendMessage()
     }
 });
+
+//---------------------------------------------GROUPS EVENTS----------------------------------------------------------
 //groups
 //deselect a group
 document.addEventListener('dblclick',() => {
     deselectGroup(globalVariables.selectGroup)
 })
-
-//create group
+//show create group options
 elements.btnCreateGroup.addEventListener('click', (e) => {
     showGroupCreator(e);
 });
-
-//delete group
-elements.btnDeleteGroup.addEventListener('click', (e) => {
-    deleteGroup(e,globalVariables.selectGroup);
-});
+//show join group options
+elements.btnJoinGroup.addEventListener('click', (e) => {
+    showGroupsJoin(e);
+})
+//---------------------------------------------CREATE OPTIONS--------------------------------------------------------
 
 //add new group
 elements.btnAddGroup.addEventListener('click', (e) => {
     addGroup(e)
 });
 //cancel add new group
-elements.btnCancelGroup.addEventListener('click', (e) => {
+elements.btnCancelCreateGroup.addEventListener('click', (e) => {
     cancelAddNewGroup(e)
 })
-
-//Socket Events
+//add new member
+elements.btnAddMember.addEventListener('click', (e) => {
+    addMemberInput(e);
+})
+//DELETE OPTIONS
+//delete group
+elements.btnDeleteGroup.addEventListener('click', (e) => {
+    deleteGroup(e,globalVariables.selectGroup);
+});
+//-----------------------------------------------------JOIN OPTIONS----------------------------------------------------------------
+//cancel join group
+elements.btnCancelJoinGroup.addEventListener('click', (e) => {
+    cancelJoinGroup(e)
+});
+//add new group
+elements.btnJoin.addEventListener('click', (e) => {
+    joinToNewGroup(e)
+})
+//-----------------------------------------------------SOCKET EVENTS--------------------------------------------------
 //On send messages
 socket.on('sendMessage', async (data) => {
     const group = await getGroup(data.to);
-    if(group.group.members == globalVariables.username || group.group.admin == globalVariables.username){
+    if(group.group.admin == globalVariables.username){
         saveMessages(data);
-        showMessages(data);
+            showMessages(data);
+    }else{
+        await group.group.members.map((member) => {
+            if(member == globalVariables.username){
+                saveMessages(data);
+                showMessages(data);
+            }
+        })
     }
 })

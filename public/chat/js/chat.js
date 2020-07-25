@@ -9,7 +9,7 @@ const elements = {
     actions: document.getElementById('actions'),
     login: document.getElementById('login'),
     userConnected: document.getElementById('userConnected'),
-    //groups elements
+    //groups options elements
     groups: document.querySelector('#groups'),
     btnCreateGroup: document.getElementById('btnCreateGroups'),
     btnJoinGroup: document.getElementById('btnJoinGroups'),
@@ -17,11 +17,17 @@ const elements = {
     //create group elements
     createGroup: document.getElementById('createGroup'),
     name: document.getElementById('name'),
-    member: document.getElementById('member'),
+    member: document.getElementById('member0'),
     members: document.getElementById('members'),
     btnAddMember: document.getElementById('btnAddMember'),
     btnAddGroup: document.getElementById('btnAddGroup'),
-    btnCancelGroup: document.getElementById('btnCancelGroup'),
+    btnCancelCreateGroup: document.getElementById('btnCancelCreateGroup'),
+    deselectLink: document.getElementById('deselectLink'),
+    //join group elements
+    joinGroup: document.getElementById('joinGroup'),
+    groupId: document.getElementById('groupId'),
+    btnJoin: document.getElementById('btnJoin'), 
+    btnCancelJoinGroup: document.getElementById('btnCancelJoinGroup') 
 }
 
 const globalVariables = {
@@ -32,7 +38,7 @@ const globalVariables = {
 const groupVariables = {
     admin: '',
     name: '',
-    members: ''
+    members: []
 }
 
 //users connected

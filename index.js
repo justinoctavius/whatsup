@@ -29,7 +29,11 @@ const io = SocketIO(server);
 //web Socket
 io.on('connection',(socket) => {
     console.log('new connection', socket.id);
-    
+
+    socket.on('disconnect', () => {
+        socket.emit('clean')
+    });
+
     socket.on('newUserConnected', (data) => {
         socket.broadcast.emit('newUserConnected', data);
     });

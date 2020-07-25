@@ -1,4 +1,5 @@
-const mongoose = require('../database/database')
+const mongoose = require('../database/database');
+const crypt = require('../helpers/crypto');
 const userSchema = new mongoose.Schema({ 
     username: {
         type: String,
@@ -10,4 +11,5 @@ const userSchema = new mongoose.Schema({
     },
     password: String    
 });
+
 module.exports = mongoose.model('user', userSchema);

@@ -1,12 +1,17 @@
-const { User } = require('../models')
+const { User } = require('../models');
+const { crypt } = require('../helpers');
 const ctrl = {}
 
-ctrl.find = (req, res) => {
+ctrl.find = async (req, res) => {
     const { username, password } = req.body;
-    User.find({username: username, password: password},(err,data) => {
-        if(err) throw err;
-        res.json(data);
-    });
+    const user = await User.findOne({username: username});
+    const allow = crypt.compare(user.password,password);
+    console.log(allow)
+    if(allow) {
+        res.json(user);
+    }else{
+        res.json(false)
+    }
 }
 
 module.exports = ctrl;

@@ -6,6 +6,10 @@ body{
 }
 
 .main-box{
+    min-height: 70vh;
+}
+
+.login-box{
     background-color: #292b2ca6;
     border-radius: 3%;
     -webkit-border-radius: 3%;
@@ -13,6 +17,7 @@ body{
     -ms-border-radius: 3%;
     -o-border-radius: 3%;
     box-shadow: 0px 0px 10px 1px #5cb85c9c;
+    max-width: 80%;
 }
 
 .title{
@@ -45,3 +50,15 @@ body{
     font-size: 10px;
     text-shadow:0px 0px 10px #5cb85c9c;
 }
+
+@media only screen and (max-width: 355px) {
+    .title {
+        font-size: 30px;
+    }
+    .link a span{
+        display: block;
+    }
+    .link a {
+        text-align: center;
+    }
+  }

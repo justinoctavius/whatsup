@@ -14,7 +14,7 @@ window.addEventListener('load',() => {
         .then(res => res.json())
         .then(res => {
             if(res.userMessage != undefined){
-                elements.newUserMessage.innerHTML = `<span class="badge badge-pill badge-success p-3">${res.userMessage}</span>`
+                elements.newUserMessage.innerHTML = `<span class="text=success">${res.userMessage}</span>`
             }
         });
 });
@@ -30,8 +30,8 @@ elements.login.addEventListener('submit',e => {
     })
     .then(res => res.json())
     .then(res => {
-        if(res.length > 0){
-            sendData(...res)
+        if(res){
+            sendData(res)
             location.assign('chat')
         }else{
             const error = document.getElementById('error')

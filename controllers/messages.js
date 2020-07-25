@@ -6,7 +6,7 @@ ctrl.fetch = async (req, res) => {
     if(message.length > 0){
         res.json({messages: message})
     }else{
-        res.json({messages: 'theres not messages'})
+        res.json(false)
     }
 }
 

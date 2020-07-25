@@ -1,5 +1,5 @@
 //fetch the username
-function fetchUsername(){
+async function fetchUsername(){
     fetch('/api/getUserData')
     .then(res => res.json())
     .then(res => {
@@ -13,18 +13,26 @@ function fetchUsername(){
 }
 
 //show if user is connected
-function userIsConnected (){
     socket.on('newUserConnected', (data) => {
-        if(!userConnected.includes(data.username)){
-            userConnected.push(data.username);
+        if(!userConnected.includes(data)){
+            userConnected.push(data);
             
             if(globalVariables.username !== data.username){
-                const p = `<p class="text-light">${data.username}: <span class="text-success">is ${data.state}</span></p>`
-                elements.userConnected.innerHTML += p
+                userConnected.map(user => {
+                    const p = `<p class="text-light dropdown-item" id="connected">${user.username}: <span class="text-success">is ${user.state}</span></p>`
+                    elements.userConnected.innerHTML = p
+                })
+            }else if(userConnected.length == 1){
+                const p = `<p class="text-danger" id="connected">There is not Person connected</p>`
+                elements.userConnected.innerHTML = p
             }
         }
+    });
+
+    socket.on('clean',() => {
+        cleanUsersConnected();
+        emitConnection()
     })
-}
 
 //clean users connected
 function cleanUsersConnected(){
@@ -33,11 +41,14 @@ function cleanUsersConnected(){
 }
 
 //emit a socket that send a message that new user is connected 
-function emitSocketConnected(){
+async function emitSocketConnected(){
     const socket = io();
-    setInterval(_ => {
-        cleanUsersConnected()
-        socket.emit('newUserConnected',{username: globalVariables.username, state: 'connected'});
-        userIsConnected()
-    },5000);
+    const loop = setInterval(async _ => {
+        await emitConnection(socket);
+    },1000);
+}
+
+//emit connection
+async function emitConnection(socket) {
+    socket.emit('newUserConnected',{username: globalVariables.username, state: 'connected'});
 }

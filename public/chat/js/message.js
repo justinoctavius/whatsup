@@ -18,11 +18,18 @@ async function validateMessages(message,group) {
     let messageData;
     const groupData = group.group;
          if (groupData){
-            if(groupData.members == globalVariables.username || groupData.admin == globalVariables.username && 
-                message.to == globalVariables.selectGroup){
-                messageData = message
+             if(groupData.admin == globalVariables.username){
+                messageData = message;
+            }else{
+                await groupData.members.map((member) => {
+                    if(member == globalVariables.username){
+                        console.log(message.messages)
+                        can = member
+                        messageData = message;
+                    }
+                });
+            }
         }
-    }
     return messageData;
 }
 
@@ -30,7 +37,7 @@ async function validateMessages(message,group) {
 function showMessages(messages){
         const p = `<div id="messageChat" class="alert alert-warning" role="alert">
         <p class="alert-heading text-light" id="messageTitle">${messages.from}:</p>
-        <p class="text-warning" id="messageM"><span class="text-light">-></span> ${messages.messages}</p>
+        <p class="text-warning" id="message"><span class="text-light">-></span> ${messages.messages}</p>
         </div>`
         elements.output.innerHTML += p
 }
@@ -87,12 +94,18 @@ async function deleteMessages(id){
 
 //---------------------------------------------Main----------------------------------------------------------
 async function fetchingAndShowMessages() {
+     let temp;
     const messages = await fetchMessages();
-    if(messages.messages){
+    if(messages){
         messages.messages.map( async (message) => {
-            const group = await getGroup(message.to); 
-            const messagesValidated = await validateMessages(message,group);
-            showMessages(messagesValidated);
+            if(message.date !== temp){
+                temp = message.date;
+                const group = await getGroup(message.to); 
+                const messagesValidated = await validateMessages(message,group);
+                if(messagesValidated){
+                    showMessages(messagesValidated);
+                }
+            }
         });
     }
 }

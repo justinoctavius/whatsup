@@ -4,23 +4,28 @@ const ctrl = {}
 
 ctrl.add = (req, res) => {
     const adding = async () => {
-        const id = randomId(16);
         const { admin, members, name } = req.body;
+        const id = randomId(16);
         const group = await Groups.findOne({group_id: id});
-        const member = await User.findOne({username: members});
+        
+        const memberValidations = await members.map( async (member) => {
+            const memberUser = await User.findOne({username: member});
+            return memberUser.username
+        });
         if(group){
             adding()
-        }else if(!member){
-            res.json({message: 'That member don\'t exist'})
+        }else if(memberValidations.length != members.length){
+            res.json({message: 'Some member don\'t exist'})
         }
         else{
-            const newGroup = await new Groups({
+            const newGroup = new Groups({
                 admin: admin,
                 name: name,
                 members: members,
                 group_id: id
             });
             newGroup.save();
+            console.log(newGroup)
             res.json({message: 'group created successfully'})
         }
     }
@@ -35,10 +40,10 @@ ctrl.fetch = async (req, res) => {
 }
 
 ctrl.get = async (req, res) => {
-    const { group_id } = req.body
+    const { group_id } = req.body;
     const group = await Groups.findOne({group_id: group_id});
     if(group) {
-        res.json({group: group})
+        res.json({group: group});
     }else{
         res.json({error: 'Group not found'})
     }
@@ -46,19 +51,36 @@ ctrl.get = async (req, res) => {
 
 ctrl.delete = async (req, res) => {
     const { group_id, username } = req.body;
-    const group = await Groups.find({group_id});
+    const group = await Groups.findOne({group_id: group_id});
     if(group) {
         if(group.admin == username){
-            await Groups.deleteOne({group_id});
+            await Groups.deleteOne({group_id: group_id});
             res.json({message: 'deleted successfully'})
         }else{
-
+            const members = group.members.filter((n) => n !== username)
             const update = await Groups.findOneAndUpdate({group_id: group_id},{
-                members: 'null',
+                members: members,
            });
            update.save();
            res.json({message: 'update successfully'})
         }
+    }else{
+        res.json({message: 'group not found'})
+    }
+}
+
+ctrl.addMember = async (req, res) => {
+    const { group_id, username } = req.body;
+    const group = await Groups.findOne({group_id: group_id});
+    const members = group.members.push(username);
+    console.log(members)
+    if(group){
+        group.update({
+            members: members
+        })
+        group.save();
+        console.log(group)
+        res.json({message: 'update successfully'})
     }else{
         res.json({message: 'group not found'})
     }

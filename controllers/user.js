@@ -21,12 +21,4 @@ ctrl.newUserMessage = (req, res) => {
     global.userMessage = '';
 }
 
-ctrl.getUser = async (req, res) => {
-    const { username } = req.body;
-    console.log(username)
-    const user = await User.findOne({username: username});
-    console.log(user)
-    res.json({user: 'hola'});
-}
-
 module.exports = ctrl;
