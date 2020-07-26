@@ -8,7 +8,7 @@ ctrl.add = async (req, res) => {
     User.find({$or: [{username: username}, {email: email}] }, (err, data) => {
         if(err) throw err;
         if(data.length > 0){
-            res.json({error: 'That user alright exist'})
+            res.json({error: true})
         }else{
             const user = new User({username, email, password: passwordCrypt});
             user.save()

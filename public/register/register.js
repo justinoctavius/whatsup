@@ -31,7 +31,7 @@ function postRegister(){
     .then(res => res.json())
     .then(res => {
         if(res.error){
-            console.log(res.error)
+            document.getElementById('error').style.display = 'block'
         }else{
             // sendAddMessage({newUserMessage: res.newUserMessage})
             location.assign('../chat');
