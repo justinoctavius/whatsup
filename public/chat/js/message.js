@@ -23,7 +23,6 @@ async function validateMessages(message,group) {
             }else{
                 await groupData.members.map((member) => {
                     if(member == globalVariables.username){
-                        console.log(message.messages)
                         can = member
                         messageData = message;
                     }
@@ -56,7 +55,7 @@ function saveMessages(data){
 }
 
 //sendMessage
-function sendMessage(){
+function sendMessage(e){
     if(globalVariables.selectGroup){
         socket.emit('sendMessage',{
             date: Date.now(),
@@ -73,8 +72,8 @@ function sendMessage(){
             elements.message.value = '';
             clearTimeout(delay);
         },1500)
-    
     }
+    e.preventDefault()
 }
 
 async function deleteMessages(id){

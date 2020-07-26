@@ -25,7 +25,6 @@ ctrl.add = (req, res) => {
                 group_id: id
             });
             newGroup.save();
-            console.log(newGroup)
             res.json({message: 'group created successfully'})
         }
     }
@@ -73,13 +72,11 @@ ctrl.addMember = async (req, res) => {
     const { group_id, username } = req.body;
     const group = await Groups.findOne({group_id: group_id});
     const members = group.members.push(username);
-    console.log(members)
     if(group){
         group.update({
             members: members
         })
         group.save();
-        console.log(group)
         res.json({message: 'update successfully'})
     }else{
         res.json({message: 'group not found'})

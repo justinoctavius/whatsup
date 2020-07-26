@@ -9,14 +9,14 @@ window.addEventListener('load',async () => {
 
 //MESSAGES SEND
 //On click the send button
-elements.btn.addEventListener('click',() => {
-    sendMessage()
+elements.btn.addEventListener('click',(e) => {
+    sendMessage(e)
 });
 
 //On press the Enter key
 elements.message.addEventListener('keydown',(e) => {
     if(e.keyCode == 13 && e.target.value){
-        sendMessage()
+        sendMessage(e)
     }
 });
 

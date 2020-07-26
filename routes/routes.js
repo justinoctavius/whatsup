@@ -12,7 +12,7 @@ route.post('/api/login', login.find);
 route.post('/api/register', register.add);
 //users
 route.get('/api/getUserData', user.getData);
-route.get('/api/newUserMessage', user.newUserMessage);
+route.post('/api/newUserMessage', user.newUserMessage);
 route.post('/api/setUserData', user.setData);
 //messages
 route.get('/api/getMessages', messages.fetch);

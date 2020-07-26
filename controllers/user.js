@@ -1,5 +1,3 @@
-const { User } = require("../models");
-
 const ctrl = {};
 
 let userData;

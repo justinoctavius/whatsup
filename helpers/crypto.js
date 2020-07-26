@@ -2,11 +2,9 @@ const bcrypt = require('bcrypt-nodejs')
 const ctrl = {}
 
 ctrl.crypt = (userPassword) =>  {
-    bcrypt.genSalt(saltRounds, (err, salt) => {
-        bcrypt.hash(userPassword, salt, (err, hash) => {
-            return hash;
-        });
-    });
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(userPassword, salt, null);
+    return hash;
 }
 
 ctrl.compare = async (password, secondPassword) => {

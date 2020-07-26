@@ -73,15 +73,16 @@ async function setGroup(data) {
 
 //show groups
 function showGroups(group) {
-    elements.groups.innerHTML += `
+    const remove = elements.groups.textContent.toString().indexOf('Join') > -1;
+    const p = `
     <div>
-        <div class="dropdown-item nav-item dropdown"
+        <div dropdown-item class="nav-item dropdown"
         id="navbarDropdownMenuLink" 
         role="button" 
         data-toggle="dropdown" 
         aria-haspopup="true" 
         aria-expanded="false">
-            <a class="row nav-link dropdown-toggle  btnGroups"
+            <a class="nav-link dropdown-toggle  btnGroups"
                 onClick="selectGroup('${group.group_id}','${group.name}')" 
                 id="${group.group_id}">
                 ${group.name}
@@ -118,18 +119,21 @@ function showGroups(group) {
         </div>
     </div>`
 
-                
+    if(remove){
+        document.getElementById('groups').innerHTML = p
+    }else{
+        document.getElementById('groups').innerHTML += p
+    }
 }
 
 //select a group
 function selectGroup(id,name) {
     deselectGroup();
-    console.log(name)
     globalVariables.selectGroup = id;
     const group = document.getElementById(globalVariables.selectGroup);
     const groupConfig = document.getElementById(`groupConfig${id}`);
     const groupSelected = document.getElementById('groupSelected');
-    groupSelected.innerHTML = ` <span class="text-primary">${name}</span> selected 
+    groupSelected.innerHTML = ` <span class="text-primary">${name}</span> selected, 
     <a class="text-danger" onClick="deselectGroup('${id}')" id="deselectLink">Click Here</a> to deselect`
     groupConfig.style.display = 'block'
     group.className = group.className + ' active';
@@ -184,7 +188,7 @@ function showGroupCreator(e) {
     e.preventDefault();
 }
 //add new group
-async function addGroup() {
+async function addGroup(e) {
     const data = {
         admin: globalVariables.username, 
         members: [], 
@@ -195,13 +199,15 @@ async function addGroup() {
     })
     const messages = await setGroup(data);
     cancelAddNewGroup();
-    console.log(messages);
     document.location.reload();
+    e.preventDefault()
 }
 
 //cancel new group
 function cancelAddNewGroup(e) {
     elements.createGroup.style.display = 'none';
+    elements.members.innerHTML = '';
+    groupVariables.members = [];
     e.preventDefault()
 }
 

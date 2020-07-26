@@ -26,10 +26,22 @@
     .link a {
         text-align: center;
     }
-    .createGroup button{
-        font-size: 7px;
+    .createGroup button, .joinGroup button{
+        font-size: 10px;
     };
-    .joinGroup button{
-        font-size: 7px;
+    .createGroup a, .joinGroup a{
+        font-size: 10px;       
+    }
+  }
+
+  @media only screen and (min-width: 990px) {
+    .createGroup{
+        min-width: 400px;
+        display: none;
+    }
+    
+    .joinGroup{
+        min-width: 400px;
+        display: none;
     }
   }
