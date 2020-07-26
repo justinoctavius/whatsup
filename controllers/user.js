@@ -2,6 +2,7 @@ const ctrl = {};
 
 let userData;
 
+
 ctrl.getData = (req, res) => {
     if(userData){
         res.json({userData: userData.data})
@@ -12,10 +13,11 @@ ctrl.getData = (req, res) => {
 
 ctrl.setData = (req, res) => {
     userData = req.body
+    console.log(global)
 }
 
 ctrl.newUserMessage = (req, res) => {
-    res.json({userMessage: global.userMessage, userData: global.userData});
+    res.json({userMessage: global.userMessage, userData: userData});
     global.userMessage = '';
 }
 
