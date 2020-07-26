@@ -1,4 +1,4 @@
-# socket.io
+# whatup
 
 this is a whatsapp retro, that let you send messages to a groups
 you can join, create, delete a groups to talk with your friends
