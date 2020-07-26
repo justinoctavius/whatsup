@@ -3,7 +3,7 @@
 this is a whatsapp retro, that let you send messages to a groups
 you can join, create, delete a groups to talk with your friends
 
----------------How to use-------------------------
+-----------------------------------------------------How to use-----------------------------------------
 //send messages
 1.for send messages you have to select a group in the show group button, on the nav bar
 2. when you click, on the top will appear a messages with the group selected and the options of deselect (if you are in pc, you can deselect with doble click)
