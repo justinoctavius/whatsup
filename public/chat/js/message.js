@@ -99,7 +99,7 @@ async function fetchingAndShowMessages() {
         messages.messages.map( async (message) => {
             if(message.date !== temp){
                 temp = message.date;
-                const group = await getGroup(message.to); 
+                const group = await getGroup(message.to);
                 const messagesValidated = await validateMessages(message,group);
                 if(messagesValidated){
                     showMessages(messagesValidated);

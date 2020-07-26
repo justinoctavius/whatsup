@@ -33,7 +33,7 @@ function postRegister(){
         if(res.error){
             console.log(res.error)
         }else{
-            sendAddMessage({newUserMessage: res.newUserMessage})
+            // sendAddMessage({newUserMessage: res.newUserMessage})
             location.assign('../chat');
         }
     })
@@ -50,14 +50,14 @@ function getElements(){
     }
 }
 
-//send adding new user message
-function sendAddMessage(newUserMessage){
-    fetch('../api/newUserMessage',{
-        method: 'post',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(newUserMessage)
-    });
-}
+// //send adding new user message
+// function sendAddMessage(newUserMessage){
+//     fetch('../api/newUserMessage',{
+//         method: 'post',
+//         headers: {
+//             'Accept': 'application/json',
+//             'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify(newUserMessage)
+//     });
+// }

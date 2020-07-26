@@ -16,6 +16,60 @@
     display: none;
 }
 
+.showGroups,.userConnectedBox{
+    max-height: 150px;
+    overflow: hidden scroll;
+}
+.groupList{
+    max-height: 75px;
+    overflow: hidden scroll;
+}
+
+#errorAddGroup,#errorJoinGroup{
+    display: none;
+}
+
+.showGroups::-webkit-scrollbar,.userConnectedBox::-webkit-scrollbar,.groupList::-webkit-scrollbar{
+    max-width: 2px;     /* Tamaño del scroll en vertical */
+    max-height: 2px;    /* Tamaño del scroll en horizontal */
+    /* display: none; */
+}
+
+/* Ponemos un color de fondo y redondeamos las esquinas del thumb */
+.showGroups::-webkit-scrollbar-thumb,
+.userConnectedBox::-webkit-scrollbar-thumb,
+.groupList::-webkit-scrollbar-thumb {
+    background: #f0ad4e;
+    border-radius: 4%;
+    -webkit-border-radius: 4%;
+    -moz-border-radius: 4%;
+    -ms-border-radius: 4%;
+    -o-border-radius: 4%;
+}
+
+
+/* Cambiamos el fondo y agregamos una sombra cuando esté en hover */
+.showGroups::-webkit-scrollbar-thumb:hover,.groupList::-webkit-scrollbar-thumb:hover {
+    background: #f0ad4e;
+}
+
+/* Cambiamos el fondo cuando esté en active */
+.showGroups::-webkit-scrollbar-thumb:active,.groupList::-webkit-scrollbar-thumb:active {
+    background-color: #f0ad4e;
+}
+
+.userConnectedBox::-webkit-scrollbar-thumb:hover {
+    background: #5bc0de;
+}
+
+.userConnectedBox::-webkit-scrollbar-thumb{
+    background: #5bc0de;
+}
+
+.userConnectedBox::-webkit-scrollbar-thumb:active{
+    background: #5bc0de;
+}
+
 @media only screen and (max-width: 450px) {
     .title {
         font-size: 25px;

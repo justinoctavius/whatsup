@@ -17,13 +17,14 @@ async function validateGroups(groups) {
     const groupsValidated = [];
     const allGroups = groups;
     if(allGroups.length > 0){
-        await allGroups.map((group) => {
+        await allGroups.map( async (group) => {
             if(group.admin == globalVariables.username){
                 groupsValidated.push(group);
             }else{
-                group.members.map((member) => {
+                await group.members.map((member) => {
                     if(member == globalVariables.username){
                         groupsValidated.push(group);
+
                     }
                 })
             }
@@ -72,8 +73,12 @@ async function setGroup(data) {
 
 
 //show groups
-function showGroups(group) {
+async function showGroups(group) {
     const remove = elements.groups.textContent.toString().indexOf('Join') > -1;
+    let members = '' 
+    for(let i = 0; i < group.members.length; i++ ){
+        members += `<li>${group.members[i]}</li>`;
+    }
     const p = `
     <div>
         <div dropdown-item class="nav-item dropdown"
@@ -96,7 +101,7 @@ function showGroups(group) {
         ">
             <div class="card">
                 <div class="card-header bg-dark">
-                    Name: ${group.name}
+                    Name: <span class="text-primary">${group.name}</span>
                 </div>
                 <div class="card-body">
                     <div class="card-subtitle text-success">
@@ -110,8 +115,8 @@ function showGroups(group) {
                         <div class="card-subtitle text-success">
                             Members:
                         </div>
-                        <ul class="text-muted" >`+ 
-                            group.members.toString()
+                        <ul class="text-muted groupList">`+ 
+                            members.toString()
                             +`
                         </ul>
                 </div>
@@ -160,7 +165,15 @@ function deselectGroup() {
 
 //delete group
 async function deleteGroup(e,id) {
-    if(confirm('Are you sure?')){
+    e.preventDefault();
+    if(!globalVariables.selectGroup){
+            elements.btnDeleteGroup.innerHTML = 'Select a group!';
+        const errorDelay = setTimeout(() => {
+            elements.btnDeleteGroup.innerHTML = 'Delete';
+            clearTimeout(errorDelay)
+        },3000)
+    }else if(confirm('Are you sure?')){
+        elements.btnDeleteGroup.innerHTML = 'Delete'
         await fetch('/api/deleteGroups',{
             method: 'post',
             headers: {
@@ -169,14 +182,14 @@ async function deleteGroup(e,id) {
             body: JSON.stringify({group_id: id, username: globalVariables.username})
         })
         .then(res => res.json())
-        .then(res => {
-            console.log(res)
+        .then( async res => {
+            if(res){
+                const messages = await deleteMessages(id);
+                console.log(messages)
+            }
         })
         .catch(err => console.log(err))
-        const messages = await deleteMessages(id);
-        console.log(messages)
         document.location.reload();
-        e.preventDefault();
     }
 }
 
@@ -189,30 +202,36 @@ function showGroupCreator(e) {
 }
 //add new group
 async function addGroup(e) {
+    e.preventDefault()
     const data = {
         admin: globalVariables.username, 
         members: [], 
         name: elements.name.value
     }
-    groupVariables.members.map((member) => {
-        data.members.push(member.value)
-    })
+    for(let i = 0; i < groupVariables.members.length; i++){
+        data.members.push(document.getElementById(`member${i}`).value);
+    }
+
     const messages = await setGroup(data);
-    cancelAddNewGroup();
-    document.location.reload();
-    e.preventDefault()
+    if(!messages){
+        document.getElementById('errorAddGroup').style.display = 'block'
+    }else{
+        document.location.reload();
+    }
 }
 
 //cancel new group
 function cancelAddNewGroup(e) {
+    e.preventDefault()
     elements.createGroup.style.display = 'none';
     elements.members.innerHTML = '';
     groupVariables.members = [];
-    e.preventDefault()
+    document.getElementById('errorAddGroup').style.display = 'none'
 }
 
 //add members
 function addMemberInput(e) {
+    e.preventDefault();
     const input = `
     <input type="text" 
     class="form-control my-1"
@@ -220,23 +239,22 @@ function addMemberInput(e) {
     placeholder="Member ${groupVariables.members.length + 1}">
     `;
     elements.members.innerHTML += input;
-    const member = document.getElementById(`member${groupVariables.members.length}`);
-    groupVariables.members.push(member);
-    e.preventDefault()
 }
 //-------------------------------JOIN FUNCTIONS-----------------------------------------------------------------
 //show join group
 function showGroupsJoin(e) {
+    e.preventDefault();
     elements.joinGroup.style.display = 'block';
-    e.preventDefault()
 }
 //cancel join group
 function cancelJoinGroup(e) {
+    e.preventDefault();
     elements.joinGroup.style.display = 'none';
-    e.preventDefault()
+    document.getElementById('errorJoinGroup').style.display = 'none';
 }
 //add new group
 function joinToNewGroup(e) {
+    e.preventDefault();
     const id = elements.groupId.value;
     fetch('/api/addMember',{
         method: 'post',
@@ -246,10 +264,15 @@ function joinToNewGroup(e) {
         body: JSON.stringify({group_id: id, username: globalVariables.username})
     })
     .then(res => res.json())
-    .then(res => console.log(res))
+    .then(res => {
+        if(!res){
+            document.getElementById('errorJoinGroup').style.display = 'block';
+        }else{
+            cancelJoinGroup(e)
+            document.location.reload();
+        }
+    })
     .catch(err => console.log(err));
-    document.location.reload();
-    e.preventDefault()
 }
 
 //-------------------------------Main-----------------------------------------------------------------
@@ -258,8 +281,8 @@ async function fetchAndShowGroups() {
     groups = await fetchGroups();
     if(groups.length > 0){
         groupsValidated = await validateGroups(groups);
-        groupsValidated.map((group) => {
-            showGroups(group);
+        groupsValidated.map(async (group) => {
+            await showGroups(group);
         });
     }
 };

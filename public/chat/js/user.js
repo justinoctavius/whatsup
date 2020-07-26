@@ -5,7 +5,7 @@ async function fetchUsername(){
     .then(res => {
     if(res.userData){
         globalVariables.username = res.userData.username
-        elements.login.innerHTML = `<p class="text-warning ">${res.userData.username}</p>`
+        elements.login.innerHTML = `<p class="text-primary"><span class="text-warning">User: </span> ${res.userData.username}</p>`
     }else{
         location.assign('../')
     }
