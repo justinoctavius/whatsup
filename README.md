@@ -15,11 +15,10 @@ click on the who is connected options on the navbar
 //create group
 1.for create a new group you have to click on the groups, 
 2.then wil appear a list of obctions click in create groups,
-3. on click the options will desappear don't worry that is a bug that we have to fix, click again
-4. when you click again, will appear a diferents options to created, first set a name of the group,
-5. then click on the add new member and set the username name of the member(you can see who is connected in the "who is connected" button in the navbar,
+3. then will appear a diferents options to created, first set a name of the group,
+4. then click on the add new member and set the username name of the member(you can see who is connected in the "who is connected" button in the navbar,
 you can add any member that you want ) 
-6. click on create button (you can cancel in the cancel button)
+5. click on create button (you can cancel in the cancel button)
 
 //join to a group
 1.for join to a group you have to click on the groups buttons
