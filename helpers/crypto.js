@@ -8,10 +8,7 @@ ctrl.crypt = (userPassword) =>  {
 }
 
 ctrl.compare = async (password, secondPassword) => {
-    let allow
-    bcrypt.compare(secondPassword, password, (err, result) =>  {
-        allow = result
-    });
+    let allow = bcrypt.compareSync(secondPassword, password)
     return allow
 }
 

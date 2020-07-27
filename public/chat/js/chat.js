@@ -32,7 +32,8 @@ const elements = {
 
 const globalVariables = {
     username: '',
-    selectGroup: ''
+    selectGroup: '',
+    connected: []
 }
 
 const groupVariables = {

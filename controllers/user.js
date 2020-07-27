@@ -15,7 +15,7 @@ ctrl.setData = (req, res) => {
 }
 
 ctrl.newUserMessage = (req, res) => {
-    res.json({userMessage: global.userMessage, userData: global.userData});
+    res.json({userMessage: global.userMessage, userData: userData});
     global.userMessage = '';
 }
 

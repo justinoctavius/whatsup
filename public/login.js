@@ -1,3 +1,4 @@
+const socket = io()
 //Dom element
 const elements = {
     login: document.getElementById('login'),
@@ -31,8 +32,15 @@ elements.login.addEventListener('submit',e => {
     .then(res => res.json())
     .then(res => {
         if(res){
-            sendData(res)
-            location.assign('chat')
+            // sendData(res)
+            socket.emit('userConnected', (res));
+            socket.on('userConnectedYet',(data) => {
+                if(data.bool){
+                    location.assign('chat')
+                }else{
+                    document.location.reload()
+                }
+            })
         }else{
             const error = document.getElementById('error')
             error.style.display = 'block'

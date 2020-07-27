@@ -1,19 +1,29 @@
 //fetch the username
 async function fetchUsername(){
-    fetch('/api/getUserData')
-    .then(res => res.json())
-    .then(res => {
-    if(res.userData){
-        globalVariables.username = res.userData.username
-        elements.login.innerHTML = `<p class="text-warning ">${res.userData.username}</p>`
-    }else{
-        location.assign('../')
-    }
-});
+//     fetch('/api/getUserData')
+//     .then(res => res.json())
+//     .then(res => {
+//     if(res.userData){
+//         globalVariables.username = res.userData.username
+//         elements.login.innerHTML = `<p class="text-warning ">${res.userData.username}</p>`
+//     }else{
+//         location.assign('../')
+//     }
+// });
+    socket.on('userConnected',(data) => {
+        if(data){
+            console.log(data)
+            globalVariables.username = data.username
+            elements.login.innerHTML = `<p class="text-warning ">${data.username}</p>`
+        }else{
+            location.assign('../')
+        }
+    })
 }
 
 //show if user is connected
-    socket.on('newUserConnected', (data) => {
+socket.on('newUserConnected', (data) => {
+        globalVariables.connected.push(data.id)
         if(!userConnected.includes(data)){
             userConnected.push(data);
             
@@ -29,10 +39,14 @@ async function fetchUsername(){
         }
     });
 
+socket.on('disconnect',() => {
+    location.assign('../')
+})
+
     socket.on('clean',() => {
         cleanUsersConnected();
         emitConnection()
-    })
+    });
 
 //clean users connected
 function cleanUsersConnected(){
@@ -41,12 +55,11 @@ function cleanUsersConnected(){
 }
 
 //emit a socket that send a message that new user is connected 
-async function emitSocketConnected(){
-    const socket = io();
-    const loop = setInterval(async _ => {
-        await emitConnection(socket);
-    },1000);
-}
+    async function emitSocketConnected(){
+        const loop = setInterval(async _ => {
+            await emitConnection(socket);
+        },1000);
+    }
 
 //emit connection
 async function emitConnection(socket) {
