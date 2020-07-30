@@ -55,6 +55,7 @@ async function getGroup(id) {
 //set group
 async function setGroup(data) {
     let message;
+    console.log(data,'asdf')
     await fetch('/api/setGroups',{
         method: 'post',
         headers: {
@@ -139,7 +140,7 @@ function selectGroup(id,name) {
     const groupConfig = document.getElementById(`groupConfig${id}`);
     const groupSelected = document.getElementById('groupSelected');
     groupSelected.innerHTML = ` <span class="text-primary">${name}</span> selected, 
-    <a class="text-danger" onClick="deselectGroup('${id}')" id="deselectLink">Click Here</a> to deselect`
+    <a class="text-danger" onClick="deselectGroup('${id}')" id="deselectLink" style="cursor: pointer;">Click Here</a> to deselect`
     groupConfig.style.display = 'block'
     group.className = group.className + ' active';
     fetchingAndShowMessages();
@@ -212,6 +213,8 @@ async function addGroup(e) {
         data.members.push(document.getElementById(`member${i}`).value);
     }
 
+    console.log(groupVariables.members)
+
     const messages = await setGroup(data);
     if(!messages){
         document.getElementById('errorAddGroup').style.display = 'block'
@@ -239,7 +242,9 @@ function addMemberInput(e) {
     placeholder="Member ${groupVariables.members.length + 1}">
     `;
     elements.members.innerHTML += input;
+    groupVariables.members.push(document.getElementById(`member${groupVariables.members.length}`))
 }
+
 //-------------------------------JOIN FUNCTIONS-----------------------------------------------------------------
 //show join group
 function showGroupsJoin(e) {

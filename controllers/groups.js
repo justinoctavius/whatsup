@@ -12,6 +12,7 @@ ctrl.add = async (req, res) => {
         for(let i = 0; i < members.length; i++){
             const memberUser = await User.findOne({username: members[i]})
                     if(memberUser){
+                        if(memberUser.username !== admin)
                         memberValidations.push(memberUser.username)
                     }
         }

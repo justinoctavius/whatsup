@@ -1,15 +1,13 @@
 //fetch the username
 async function fetchUsername(){
-    fetch('/api/getUserData')
-    .then(res => res.json())
-    .then(res => {
-    if(res.userData){
-        globalVariables.username = res.userData.username
-        elements.login.innerHTML = `<p class="text-primary"><span class="text-warning">User: </span> ${res.userData.username}</p>`
+    const username = location.search.split('=')[1];
+    if(document.cookie.includes(` ${username} `)){
+        console.log(document.cookie)
+        globalVariables.username = username;
+        elements.login.innerHTML = `<p class="text-primary"><span class="text-warning">User: </span> ${globalVariables.username}</p>`
     }else{
         location.assign('../')
     }
-});
 }
 
 //show if user is connected

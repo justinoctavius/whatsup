@@ -3,5 +3,5 @@ module.exports = {
     register: require('./register'),
     messages: require('./messages'),
     user: require('./user'),
-    groups: require('./groups')
+    groups: require('./groups'),
 }

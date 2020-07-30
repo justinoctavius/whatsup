@@ -3,7 +3,7 @@
 window.addEventListener('load',async () => {
     await fetchUsername();
     await fetchAndShowGroups();
-    await emitSocketConnected();
+    await emitSocketConnected()
     elements.message.focus();
 })
 

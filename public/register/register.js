@@ -34,7 +34,7 @@ function postRegister(){
             document.getElementById('error').style.display = 'block'
         }else{
             // sendAddMessage({newUserMessage: res.newUserMessage})
-            location.assign('../chat');
+            location.assign('../');
         }
     })
 }
@@ -50,14 +50,14 @@ function getElements(){
     }
 }
 
-// //send adding new user message
-// function sendAddMessage(newUserMessage){
-//     fetch('../api/newUserMessage',{
-//         method: 'post',
-//         headers: {
-//             'Accept': 'application/json',
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify(newUserMessage)
-//     });
-// }
+//send adding new user message
+function sendAddMessage(newUserMessage){
+    fetch('../api/newUserMessage',{
+        method: 'post',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newUserMessage)
+    });
+}
