@@ -3,7 +3,8 @@
 window.addEventListener('load',async () => {
     await fetchUsername();
     await fetchAndShowGroups();
-    await emitSocketConnected()
+    headerMessage('welcome ' + globalVariables.username, 'text-success')
+    // await emitSocketConnected()
     elements.message.focus();
 })
 
@@ -19,6 +20,11 @@ elements.message.addEventListener('keydown',(e) => {
         sendMessage(e)
     }
 });
+//on logout
+elements.logout.addEventListener('click', () => {
+    Cookies.remove('username');
+    location.assign('/')
+})
 
 //---------------------------------------------GROUPS EVENTS----------------------------------------------------------
 //groups
@@ -67,14 +73,24 @@ elements.btnJoin.addEventListener('click', (e) => {
 socket.on('sendMessage', async (data) => {
     const group = await getGroup(data.to);
     if(group.group.admin == globalVariables.username){
+        if(data.from !== globalVariables.username){
+            headerMessage('new message from ' +`<span class="text-warning">${data.from}</span>`  + ' of ' + `<span class="text-primary">${group.group.name} </span>`, 'text-success');
+        }
         saveMessages(data);
             showMessages(data);
     }else{
         await group.group.members.map((member) => {
             if(member == globalVariables.username){
+                if(data.from !== globalVariables.username){
+                    headerMessage('new message from ' + group.group.name, 'text-success');
+                }
                 saveMessages(data);
                 showMessages(data);
             }
         })
     }
+});
+
+socket.on('resetGroup', async () => {
+    await fetchAndShowGroups();
 })

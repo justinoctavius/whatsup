@@ -3,8 +3,7 @@ const { login,
         register, 
         messages, 
         user, 
-        groups, 
-        chat} = require('../controllers');
+        groups} = require('../controllers');
 const route = express.Router();
 
 //login
@@ -23,6 +22,5 @@ route.post('/api/setGroups', groups.add);
 route.post('/api/getGroups', groups.get);
 route.post('/api/deleteGroups', groups.delete);
 route.post('/api/addMember', groups.addMember);
-
 
 module.exports = route

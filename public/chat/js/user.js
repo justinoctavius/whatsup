@@ -1,52 +1,48 @@
 //fetch the username
+let userConnectedInterval;
 async function fetchUsername(){
     const username = location.search.split('=')[1];
-    if(document.cookie.includes(` ${username} `)){
-        console.log(document.cookie)
+    const cookieUsername = Cookies.get('username'); 
+    if(cookieUsername === username){
         globalVariables.username = username;
-        elements.login.innerHTML = `<p class="text-primary"><span class="text-warning">User: </span> ${globalVariables.username}</p>`
-    }else{
+        elements.login.innerHTML = `<p class="text-primary">
+            <span class="text-warning">User: </span>
+            ${globalVariables.username} </p>`;
+            await setUserConnectedInterval();
+        }else{
         location.assign('../')
     }
 }
 
-//show if user is connected
-    socket.on('newUserConnected', (data) => {
-        if(!userConnected.includes(data)){
-            userConnected.push(data);
-            
-            if(globalVariables.username !== data.username){
-                userConnected.map(user => {
-                    const p = `<p class="text-light dropdown-item" id="connected">${user.username}: <span class="text-success">is ${user.state}</span></p>`
-                    elements.userConnected.innerHTML = p
-                })
-            }else if(userConnected.length == 1){
-                const p = `<p class="text-danger" id="connected">There is not Person connected</p>`
-                elements.userConnected.innerHTML = p
-            }
-        }
+socket.on('newUserConnected', async (data) => {
+   if(!userConnected.includes(data) && !userConnected.includes(globalVariables.username)){
+        userConnected.push(data);
+        await fetchUserConnected();
+    }else{
+        await setUserConnectedInterval();
+    }
+});
+
+async function setUserConnectedInterval() {
+    socket.emit('newUserConnected', globalVariables.username);
+    setTimeout(() => {
+        cleanUserConnected();
+        socket.emit('newUserConnected', globalVariables.username);
+    },10000)
+}
+
+function cleanUserConnected() {
+    if(userConnected.length < 1){
+        elements.userConnected.innerHTML = '<p class="text-danger">There aren\'t users connected</p>';
+    }else{
+        userConnected = [];
+        elements.userConnected.innerHTML = ''
+    }
+}
+
+async function fetchUserConnected() {
+    userConnected.map(data => {
+        elements.userConnected.innerHTML += `<p class="text-primary" id="${data}"> 
+        ${data} <span class="text-success">Connected</span></p>`;
     });
-
-    socket.on('clean',() => {
-        cleanUsersConnected();
-        emitConnection()
-    })
-
-//clean users connected
-function cleanUsersConnected(){
-    userConnected = []; 
-    elements.userConnected.innerHTML = '';
-}
-
-//emit a socket that send a message that new user is connected 
-async function emitSocketConnected(){
-    const socket = io();
-    const loop = setInterval(async _ => {
-        await emitConnection(socket);
-    },1000);
-}
-
-//emit connection
-async function emitConnection(socket) {
-    socket.emit('newUserConnected',{username: globalVariables.username, state: 'connected'});
 }

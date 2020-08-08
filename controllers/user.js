@@ -1,3 +1,4 @@
+const cookie = require('js-cookie');
 const ctrl = {};
 
 ctrl.newUserMessage = (req, res) => {

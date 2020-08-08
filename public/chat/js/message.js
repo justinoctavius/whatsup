@@ -17,7 +17,7 @@ async function fetchMessages() {
 async function validateMessages(message,group) {
     let messageData;
     const groupData = group.group;
-         if (groupData){
+         if (groupData && message.to === globalVariables.selectGroup){
              if(groupData.admin == globalVariables.username){
                 messageData = message;
             }else{
@@ -66,12 +66,8 @@ function sendMessage(e){
         
         elements.message.value = ''
     }else{
-        elements.message.value = 'Select a group';
-
-        const delay = setTimeout(() => {
-            elements.message.value = '';
-            clearTimeout(delay);
-        },1500)
+        headerMessage('Select a group', 'text-danger');
+        elements.message.value = '';
     }
     e.preventDefault()
 }
@@ -107,4 +103,12 @@ async function fetchingAndShowMessages() {
             }
         });
     }
+}
+
+function headerMessage(message, className) {
+    elements.headerMessage.innerHTML = `<p class="${className} slideDown">${message}</p>`
+        const removeHeaderMessage = setInterval(() => {
+            elements.headerMessage.innerHTML = '';
+            clearInterval(removeHeaderMessage);
+        },5000)
 }

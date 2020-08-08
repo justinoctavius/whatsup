@@ -30,13 +30,13 @@ const io = SocketIO(server);
 io.on('connection',(socket) => {
     console.log('new connection', socket.id);
 
-    socket.on('disconnect', () => {
-        socket.emit('clean')
+    socket.on('newUserConnected', (data) => {
+        socket.emit('newUserConnected', data);
     });
 
-    socket.on('newUserConnected', (data) => {
-        socket.broadcast.emit('newUserConnected', data);
-    });
+    socket.on('resetGroup', () => {
+        socket.emit('resetGroup')
+    })
 
     socket.on('sendMessage', (data) => {
         io.sockets.emit('sendMessage', data);

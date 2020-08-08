@@ -4,6 +4,13 @@ body{
     font-family: 'Press Start 2P', cursive;
     font-size: 10px;
 }
+li{
+    list-style-type: none;
+}
+
+#headerMessage{
+    min-height: 30px;
+}
 
 .main-box{
     background-color: 	#292b2cb9;

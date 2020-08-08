@@ -9,9 +9,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Press+Start+2P&display=swap" rel="stylesheet">
     <!-- bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <!-- wicked style -->
+    <link rel="stylesheet" href="./css/wickedcss.min.css">
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
     <!-- own css -->
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/groups.css">
+    <link rel="stylesheet" href="./css/styles.css">
 
 </head>
 <body class="d-flex justify-content-center">
@@ -25,13 +30,18 @@
             <div>
                 <h1 class="title">Whats<span class="text-warning">Up</span></h1>
             </div>
+            <!-- header messages -->
+            <p class="text-center p-0 m-0" id="headerMessage"></p>
             <!-- login -->
-            <div id="login"></div>
+            <div class="row text-warning">
+                <div class="col-md-8 bounceIn" id="login"></div>
+                <div class="col-md-4 pointer hover-danger bounceIn" id="logout"><i class="font-2 fas fa-sign-out-alt"></i>Logout </div>
+            </div>
         </div>
 
         <div>
 <!-- *******************************************NAVBAR************************************************************************************************************************** -->
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark slideRight">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -39,17 +49,17 @@
                     <ul class="navbar-nav">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-primary" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Who is Connected?
+                                Who is Connected? <i class="font-2 far fa-question-circle"></i>
                             </a>
                             <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdownMenuLink">
-                                <div class="userConnectedBox" id="userConnected">
+                                <div class="userConnectedBox p-2 font-1 text-center" id="userConnected">
                                     Loading...
                                 </div>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-success" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Groups
+                                Groups <i class="font-2 fas fa-users"></i>
                             </a>
                             <div class="dropdown-menu  bg-dark" aria-labelledby="navbarDropdownMenuLink">
                                 <div class="dropdown-item nav-item dropdown"
@@ -59,13 +69,13 @@
                                     aria-haspopup="true" 
                                     aria-expanded="false"
                                 >
-                                    <a class="nav-link dropdown-toggle text-success" id="btnCreateGroups">Create</a>
+<!-- ***************************************************Create Group *************************************************************************************************************-->
+                                    <a class="nav-link dropdown-toggle text-success" id="btnCreateGroups">Create <i class="font-2 fas fa-pencil-alt"></i></a>
                                 </div>
-
-                                <div class="bg-dark createGroup group" id="createGroup">
-                                    <div class="bg-dark card">
+                                <div class="bg-dark createGroup group" id="createGroup">                         
+                                    <div class="bg-dark card" id={create}>
                                         <div class="card-header bg-dark text-success">
-                                          CREATE A NEW GROUP
+                                        CREATE A NEW GROUP <i class="font-3 fas fa-pencil-alt"></i>
                                         </div>
                                         <div class="card-body">
                                             <form class="form-group">
@@ -82,22 +92,22 @@
                                                         </div>
                                                     </div>
                                                     <div class="row d-flex justify-content-center">
-                                                        <button class="btn 
+                                                        <button type="button" class="btn 
                                                             btn-outline-warning  
                                                             form-control
                                                             m-1"
                                                             id="btnAddMember">
-                                                                Add new Member
+                                                                Add new Member <i class="font-2 fas fa-user-plus"></i>
                                                             </button>
                                                     </div>
                                                     <div class="row d-flex justify-content-center">
                                                         <p class="text-danger" id="errorAddGroup">
                                                             Some member doesn't exits or is invalid
                                                         </p>
-                                                        <button class="btn btn-outline-success form-control m-1" 
-                                                        id="btnAddGroup">Create</button>
-                                                        <button class="btn btn-outline-danger form-control m-1" 
-                                                        id="btnCancelCreateGroup">Cancel</button>
+                                                        <button type="button" class="btn btn-outline-success form-control m-1" 
+                                                        id="btnAddGroup">Create <i class="font-2 fas fa-check"></i></button>
+                                                        <button type="button" class="btn btn-outline-danger form-control m-1" 
+                                                        id="btnCancelCreateGroup">Cancel <i class="font-2 fas fa-times"></i></button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -111,13 +121,14 @@
                                     data-toggle="dropdown" 
                                     aria-haspopup="true" 
                                     aria-expanded="false"
-                                >
-                                    <a class="nav-link dropdown-toggle text-warning" id="btnJoinGroups">Join</a>
+                                    >
+<!-- ***************************************************Join Group *************************************************************************************************************-->
+                                    <a class="nav-link dropdown-toggle text-warning" id="btnJoinGroups">Join <i class="font-3 fas fa-running"></i></a>
                                 </div>
                                 <div class="joinGroup group" id="joinGroup">
                                     <div class="card bg-dark">
                                         <div class="card-header bg-dark text-warning">
-                                        JOIN TO A NEW GROUP
+                                        JOIN TO A NEW GROUP <i class="font-4 fas fa-running"></i>
                                         </div>
                                         <div class="card-body">
                                             <form class="form-group">
@@ -132,18 +143,18 @@
                                                         <p class="text-danger" id="errorJoinGroup">
                                                             Group doesn't exists
                                                         </p>
-                                                        <button class="btn 
+                                                        <button type="button" class="btn 
                                                             btn-outline-warning  
                                                             form-control
                                                             m-1"
                                                             id="btnJoin">
-                                                                JOIN
+                                                                Join <i class="font-2 fas fa-check"></i>
                                                         </button>
-                                                        <button class="btn 
+                                                        <button type="button" class="btn 
                                                         btn-outline-danger
                                                         form-control
                                                         m-1" 
-                                                        id="btnCancelJoinGroup">Cancel
+                                                        id="btnCancelJoinGroup">Cancel <i class="font-2 fas fa-times"></i>
                                                         </button>    
                                                     </div>
                                                 </div>
@@ -151,6 +162,7 @@
                                         </div>
                                     </div>
                                 </div>
+<!-- ***************************************************delete Group *************************************************************************************************************-->                                
                                 <div class="dropdown-item nav-item dropdown"
                                     id="navbarDropdownMenuLink" 
                                     role="button" 
@@ -158,18 +170,18 @@
                                     aria-haspopup="true" 
                                     aria-expanded="false"
                                 >
-                                    <a class="nav-link dropdown-toggle text-danger" id="btnDeleteGroups">Delete</a>
+                                    <a class="nav-link dropdown-toggle text-danger" id="btnDeleteGroups">Delete <i class="font-2 fas fa-trash-alt"></i></a>
                                 </div>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-warning" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                               Show groups
+                               Show groups <i class="font-2 far fa-eye"></i>
                             </a>
                             <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdownMenuLink">
-                                <div class="text-center showGroups text-warning" id="groups">
+                                <div class="text-center p-2 showGroups text-warning" id="groups">
                                     <span class="text-danger" style="font-size: 10px;">
-                                        <span class="text-warning">Join</span>
+                                        <span class="text-warning" id="showGroupMessage">Join</span>
                                         to a group or 
                                         <span class="text-success">Create</span>
                                         a new one
@@ -181,12 +193,12 @@
                 </div>
             </nav>      
                 <div class="text-center text-muted bg-light" id="groupSelected">
-                    <span class="text-primary">Select</span>,
-                    <span class="text-success">Create</span> or
-                    <span class="text-warning">Join</span> to a Group
+                        <span class="text-primary">Select</span>,
+                        <span class="text-success">Create</span> or
+                        <span class="text-warning">Join</span> to a Group
                 </div>
 
-            <div class="container">
+            <div class="container slideRight">
                 <!-- message -->
                 <div id="chat-window" class=" mt-1">     
                     <div id="output"></div>
@@ -204,9 +216,10 @@
         </div>
     </div>
 <!-- *******************************************END WINDOW CHAT************************************************************************************************************************** -->
-
     <!-- socket.io scripts -->
     <script src="/socket.io/socket.io.js"></script>
+    <!-- cookie -->
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
     <!-- bootstrap -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -215,7 +228,14 @@
     <script src="./js/chat.js"></script>
     <script src="./js/user.js"></script>
     <script src="./js/message.js"></script>
+    <!-- groups -->
     <script src="./js/group.js"></script>
+    <script src="./js/group/general.js"></script>
+    <script src="./js/group/showGroups.js"></script>
+    <script src="./js/group/create.js"></script>
+    <script src="./js/group/join.js"></script>
+    <script src="./js/group/delete.js"></script>
+    
     <script src="./js/events.js"></script>
 </body>
 </html>

@@ -31,10 +31,8 @@ elements.login.addEventListener('submit',e => {
     .then(res => res.json())
     .then(res => {
         if(res){
-            const d = new Date();
-            d.setMinutes(30);
-            document.cookie = `${res.username} expires=${d.toUTCString()} path=/chat/"`
-            location.assign(`/chat/?username=${res.username}`)
+            Cookies.set('username',res.username);
+            location.assign(`/chat/?username=${res.username}`);
         }else{
             const error = document.getElementById('error')
             error.style.display = 'block';
