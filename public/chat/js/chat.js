@@ -10,7 +10,6 @@ const elements = {
     actions: document.getElementById('actions'),
     login: document.getElementById('login'),
     logout: document.getElementById('logout'),
-    userConnected: document.getElementById('userConnected'),
     //groups options elements
     groups: document.querySelector('#groups'),
     btnCreateGroup: document.getElementById('btnCreateGroups'),

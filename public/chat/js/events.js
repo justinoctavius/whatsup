@@ -24,7 +24,8 @@ elements.message.addEventListener('keydown',(e) => {
 elements.logout.addEventListener('click', () => {
     Cookies.remove('username');
     location.assign('/')
-})
+});
+
 
 //---------------------------------------------GROUPS EVENTS----------------------------------------------------------
 //groups

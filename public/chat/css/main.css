@@ -1,3 +1,6 @@
+html{
+    scroll-behavior: smooth;
+}
 body{
     background-color: black;
     color: #5cb85c;
@@ -6,10 +9,6 @@ body{
 }
 li{
     list-style-type: none;
-}
-
-#headerMessage{
-    min-height: 30px;
 }
 
 .main-box{
