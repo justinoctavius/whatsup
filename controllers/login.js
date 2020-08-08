@@ -7,7 +7,6 @@ ctrl.find = async (req, res) => {
     const user = await User.findOne({username: username});
     if(user){
         const allow = crypt.compare(user.password,password);
-        console.log(allow)
         if(allow) {
             res.json(user);
         }else{

@@ -1,0 +1,25 @@
+.pointer{
+    cursor: pointer;
+}
+
+.hover-warning:hover{
+    color: #f0ad4e;
+}
+.hover-danger:hover{
+    color: #d9534f;
+}
+.font-1{
+    font-size: 10px;
+}
+.font-2{
+    font-size: 20px;
+}
+.font-3{
+    font-size: 30px;
+}
+.font-4{
+    font-size: 40px;
+}
+.font-5{
+    font-size: 50px;
+}

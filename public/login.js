@@ -31,25 +31,13 @@ elements.login.addEventListener('submit',e => {
     .then(res => res.json())
     .then(res => {
         if(res){
-            sendData(res)
-            location.assign('chat')
+            Cookies.set('username',res.username);
+            location.assign(`/chat/?username=${res.username}`);
         }else{
             const error = document.getElementById('error')
-            error.style.display = 'block'
+            error.style.display = 'block';
         }
     })
 
     e.preventDefault()
 });
-
-
-//Functions
-function sendData(data) {
-    fetch('/api/setUserData', {
-        method: 'post',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({data: data})
-    })
-}

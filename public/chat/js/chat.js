@@ -4,10 +4,12 @@ const socket = io()
 const elements = {
     //messages elements
     message: document.getElementById('message'),
+    headerMessage: document.getElementById('headerMessage'),
     btn: document.getElementById('send'),
     output: document.getElementById('output'),
     actions: document.getElementById('actions'),
     login: document.getElementById('login'),
+    logout: document.getElementById('logout'),
     userConnected: document.getElementById('userConnected'),
     //groups options elements
     groups: document.querySelector('#groups'),
@@ -23,6 +25,7 @@ const elements = {
     btnAddGroup: document.getElementById('btnAddGroup'),
     btnCancelCreateGroup: document.getElementById('btnCancelCreateGroup'),
     deselectLink: document.getElementById('deselectLink'),
+    errorAddGroup: document.getElementById('errorAddGroup'),
     //join group elements
     joinGroup: document.getElementById('joinGroup'),
     groupId: document.getElementById('groupId'),
@@ -42,5 +45,4 @@ const groupVariables = {
 }
 
 //users connected
-let userConnected = []
-
+let userConnected = [];

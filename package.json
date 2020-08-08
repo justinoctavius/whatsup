@@ -13,6 +13,7 @@
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "express": "^4.17.1",
+    "js-cookie": "^2.2.1",
     "mongoose": "^5.9.21",
     "socket.io": "^2.3.0"
   }

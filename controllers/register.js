@@ -12,7 +12,7 @@ ctrl.add = async (req, res) => {
         }else{
             const user = new User({username, email, password: passwordCrypt});
             user.save()
-            global.userMessage = `new user has been added: </br> <span class="text-primary">--> ${username}</span>`;
+            global.userMessage = `new user has been added: </br> <span class="text-primary">-> ${username}</span>`;
             res.json({userMessage: global.userMessage});
         }
     });

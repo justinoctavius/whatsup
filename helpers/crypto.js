@@ -7,12 +7,9 @@ ctrl.crypt = (userPassword) =>  {
     return hash;
 }
 
-ctrl.compare = async (password, secondPassword) => {
-    let allow
-    bcrypt.compare(secondPassword, password, (err, result) =>  {
-        allow = result
-    });
-    return allow
+ctrl.compare = (password, secondPassword) => {
+    const allow = bcrypt.compareSync(secondPassword, password);
+    return allow;
 }
 
 module.exports = ctrl
